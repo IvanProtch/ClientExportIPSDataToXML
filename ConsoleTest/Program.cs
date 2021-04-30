@@ -80,7 +80,6 @@ namespace ConsoleTest
 
             XMLDataWriter.DataWriter(path).Write(asm);
 
-            //asm.GetAllConsistance();
             ;
             exportTask
                 .AddObject(ExportedObject.Create(1001, "test", 12345), 66824300)
