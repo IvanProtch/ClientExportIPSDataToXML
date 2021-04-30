@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="IPStoXmlDataExport.IPSDataReader">
+    <Position X="13.75" Y="2.25" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="IPStoXmlDataExport.IPSDataReader.ReadingMode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DataExchange.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <AssociationLine Name="_settings" Type="Intermech.Interfaces.XmlExchange.XmlExchangeExportSettings">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.225" Y="0.05" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAQAAAhwIIAAAgAACAACAgAAAAAAAAAAA=</HashCode>
+      <FileName>DataExchange.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_settings" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IPStoXmlDataExport.XMLDataWriter">
+    <Position X="10.5" Y="2.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAgAAAAAAAAACIAAAAAAAAAACCAAAAAEAgAA=</HashCode>
+      <FileName>DataExchange.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Document" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportSettings">
+    <Position X="7" Y="8.25" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="ObjSettings" Type="Intermech.Interfaces.XmlExchange.XmlExchangeExportObjList">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.173" Y="0.07" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="ObjSettings" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="System.Xml.Linq.XDocument">
+    <Position X="11.75" Y="8.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportObjList">
+    <Position X="2.5" Y="13.5" Width="3.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportTypedBaseList">
+    <Position X="2.5" Y="17" Width="3.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportBaseList">
+    <Position X="2.5" Y="20.5" Width="3.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="IPStoXmlDataExport.Logger">
+    <Position X="7.75" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAASAAAAIAgCAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>ExportTask.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IPStoXmlDataExport.ExportTask">
+    <Position X="7" Y="2.25" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="IPStoXmlDataExport.ExportTask.ObjAttrPairsAndClipboard" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ExportTask.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <AssociationLine Name="_logger" Type="IPStoXmlDataExport.Logger">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.134" Y="0.192" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="_dataWriter" Type="IPStoXmlDataExport.XMLDataWriter">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.026" Y="0.047" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="_dataReader" Type="IPStoXmlDataExport.IPSDataReader">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.943" Y="0.05" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Settings" Type="Intermech.Interfaces.XmlExchange.XmlExchangeExportSettings" FixedFromPoint="true">
+      <Path>
+        <Point X="8.98" Y="6.936" />
+        <Point X="8.98" Y="8.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ACCAAAEAgAAAAAAIAIAAAACDJAAKhIAggBAAAQGAAAA=</HashCode>
+      <FileName>ExportTask.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_logger" />
+      <Field Name="_dataWriter" />
+      <Field Name="_dataReader" />
+      <Property Name="Settings" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IPStoXmlDataExport.ExportData">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAEgAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>ExportData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IPStoXmlDataExport.ExportedObject">
+    <Position X="3.5" Y="3.5" Width="3" />
+    <AssociationLine Name="exportedAttributes" Type="IPStoXmlDataExport.ExportedAttribute">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.547" Y="0.278" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAACEAgAAAAQAEwAAAAAAAAAAgBEAAAIAQAAAAABA=</HashCode>
+      <FileName>ExportData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="exportedAttributes" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IPStoXmlDataExport.ExportedAttribute">
+    <Position X="4" Y="9.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAEAAQAAAAABAAAAAAgAAAAABA=</HashCode>
+      <FileName>ExportData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IPStoXmlDataExport.ExportedAsm">
+    <Position X="0.5" Y="9.25" Width="2.75" />
+    <InheritanceLine Type="IPStoXmlDataExport.ExportedObject" FixedFromPoint="true">
+      <Path>
+        <Point X="3.5" Y="5.688" />
+        <Point X="1.875" Y="5.688" />
+        <Point X="1.875" Y="9.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAACAAAEhAIAIAAAAACAAAAAAIAAAAAAQAA=</HashCode>
+      <FileName>ExportData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9.75" />
+</ClassDiagram>

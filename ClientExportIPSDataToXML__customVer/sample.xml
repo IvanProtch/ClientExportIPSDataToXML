@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<main_assembly>
+  <assemly id ="0" name ="asm" guid ="111">
+    <item id ="0" name ="i" guid ="000">
+      item1
+      <attributs>
+        <attribute id ="0" name ="id" guid ="000">
+          <values>
+            <value>0</value>
+            <value>0</value>
+          </values>
+        </attribute>
+        <attribute id ="1" name ="name" guid ="100">
+          <values>
+            <value>0</value>
+            <value>0</value>
+          </values>
+        </attribute>
+      </attributs>
+    </item>
+    <item id ="1" name ="i" guid ="000">
+      item1
+      <attributs>
+        <attribute id ="0" name ="id" guid ="000">
+          <values>
+            <value>0</value>
+            <value>0</value>
+          </values>
+        </attribute>
+        <attribute id ="1" name ="name" guid ="100">
+          <values>
+            <value>0</value>
+            <value>0</value>
+          </values>
+        </attribute>
+      </attributs>
+    </item>
+    <attributs>
+      <attribute id ="0" name ="id" guid ="000">
+        <values>
+          <value>0</value>
+          <value>0</value>
+        </values>
+      </attribute>
+      <attribute id ="1" name ="name" guid ="100">
+        <values>
+          <value>0</value>
+          <value>0</value>
+        </values>
+      </attribute>
+    </attributs>
+  </assemly>
+  <attributs>
+    <attribute id ="0" name ="id" guid ="000">
+      <values>
+        <value>0</value>
+        <value>0</value>
+      </values>
+    </attribute>
+    <attribute id ="1" name ="name" guid ="100">
+      <values>
+        <value>0</value>
+        <value>0</value>
+      </values>
+    </attribute>
+  </attributs>
+</main_assembly>
