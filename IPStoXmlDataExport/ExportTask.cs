@@ -185,14 +185,15 @@ namespace IPStoXmlDataExport
         /// </summary>
         public void StartExportTask(bool writeExceptionToLog = true, bool readAndWriteInOneProcess = true)
         {
+            DateTime start = DateTime.Now;
+            _logger.AddToLog($"Экспорт данных [{_mainAsm}] начат.");
+            if (readAndWriteInOneProcess)
+                Processing(_mainAsm);
+            DateTime end = DateTime.Now;
+            _logger.AddToLog($"Экспорт данных [{_mainAsm}] завершен (время выполнения: {(end - start).ToString("hh\\:mm\\:ss")}).");
             try
             {
-                DateTime start = DateTime.Now;
-                _logger.AddToLog($"Экспорт данных [{_mainAsm}] начат.");
-                if(readAndWriteInOneProcess)
-                    Processing(_mainAsm);
-                DateTime end = DateTime.Now;
-                _logger.AddToLog($"Экспорт данных [{_mainAsm}] завершен (время выполнения: {(end - start).ToString("hh\\:mm\\:ss")}).");
+
             }
             catch (Exception exc)
             {
@@ -214,91 +215,85 @@ namespace IPStoXmlDataExport
         /// <param name="obj"></param>
         private void Processing(ExportedObject obj)
         {
-            try
-            {
-                ExportData data = _dataReader.Read(_session, obj);
+            ExportData data = _dataReader.Read(_session, obj);
 
-                bool isSingle = _singleObjects.Contains(obj.ObjectID) || _singleObjectsType.Contains(obj.ObjectType);
-                if (!isSingle)
+            bool isSingle = _singleObjects.Contains(obj.ObjectID) || _singleObjectsType.Contains(obj.ObjectType);
+            if (!isSingle)
+            {
+                foreach (Predicate<ExportedObject> condition in _singleConditions)
                 {
-                    foreach (Predicate<ExportedObject> condition in _singleConditions)
+                    if (condition.Invoke(obj))
                     {
-                        if (condition.Invoke(obj))
-                        {
-                            isSingle = true;
-                            break;
-                        }
+                        isSingle = true;
+                        break;
                     }
                 }
+            }
 
-                if (!isSingle)
+            if (!isSingle)
+            {
+                if (_objectsToAdd.ContainsKey(obj.ObjectID))
                 {
-                    if (_objectsToAdd.ContainsKey(obj.ObjectID))
+                    data.ExportedObjectsList.Add(_objectsToAdd[obj.ObjectID]);
+                    _objectsToAdd.Remove(obj.ObjectID);
+                }
+
+                data.ExportedObjectsList
+                    .RemoveAll(item => _objectsToRemove.Contains(item.ObjectID) || _objectsTypesToRemove.Contains(item.ObjectType));
+
+                _excludeConditions.ForEach(cond => data.ExportedObjectsList.RemoveAll(e => cond.Invoke(e)));
+
+                foreach (ExportedObject objExp in data.ExportedObjectsList)
+                {
+                    foreach (Predicate<ExportedObject> predicate in _changeObjectConditionsActions.Keys)
                     {
-                        data.ExportedObjectsList.Add(_objectsToAdd[obj.ObjectID]);
-                        _objectsToAdd.Remove(obj.ObjectID);
+                        if (predicate.Invoke(objExp))
+                        {
+                            _changeObjectConditionsActions[predicate].Invoke(objExp);
+                            _logger.AddToLog($"Для [{objExp}] выполнено условие [{predicate.Method.Name}] и действие [{_changeObjectConditionsActions[predicate].Method.Name}]");
+                        }
                     }
 
-                    data.ExportedObjectsList
-                        .RemoveAll(item => _objectsToRemove.Contains(item.ObjectID) || _objectsTypesToRemove.Contains(item.ObjectType));
-
-                    _excludeConditions.ForEach(cond => data.ExportedObjectsList.RemoveAll(e => cond.Invoke(e)));
-
-                    foreach (ExportedObject objExp in data.ExportedObjectsList)
+                    // копирование значения атрибута
+                    foreach (var objAttr in _copyAttrValueToAnotherAttr_forType)
                     {
-                        foreach (Predicate<ExportedObject> predicate in _changeObjectConditionsActions.Keys)
+                        // если найден объект-источник
+                        if (objAttr.objWithValue.Item1 == objExp.ObjectType)
                         {
-                            if (predicate.Invoke(objExp))
-                            {
-                                _changeObjectConditionsActions[predicate].Invoke(objExp);
-                                _logger.AddToLog($"Для [{objExp}] выполнено условие [{predicate.Method.Name}] и действие [{_changeObjectConditionsActions[predicate].Method.Name}]");
-                            }
+                            ExportedAttribute sourseAttr = objExp.exportedAttributes.FirstOrDefault(attr => attr.AttributeId == objAttr.objWithValue.Item2);
+                            objAttr.sourseAttr = sourseAttr is null ? null : sourseAttr.Clone() as ExportedAttribute; // запись атрибута в буфер
                         }
 
-                        // копирование значения атрибута
-                        foreach (var objAttr in _copyAttrValueToAnotherAttr_forType)
+                        // если найден объект-приемник
+                        if (objAttr.objWithAttr.Item1 == objExp.ObjectType)
                         {
-                            // если найден объект-источник
-                            if (objAttr.objWithValue.Item1 == objExp.ObjectType)
+                            var attribute = objExp.exportedAttributes.FirstOrDefault(attr => attr.AttributeId == objAttr.objWithAttr.Item2);
+
+                            if (attribute != null)
                             {
-                                ExportedAttribute sourseAttr = objExp.exportedAttributes.FirstOrDefault(attr => attr.AttributeId == objAttr.objWithValue.Item2);
-                                objAttr.sourseAttr = sourseAttr is null ? null : sourseAttr.Clone() as ExportedAttribute; // запись атрибута в буфер
+                                attribute.Values = objAttr.sourseAttr.Values;
+                                _logger.AddToLog($"К [{objExp}] добавлено значение [{objAttr.sourseAttr}] [{objAttr.sourseAttr.Values.First()}].");
                             }
-
-                            // если найден объект-приемник
-                            if (objAttr.objWithAttr.Item1 == objExp.ObjectType)
+                            else
                             {
-                                var attribute = objExp.exportedAttributes.FirstOrDefault(attr => attr.AttributeId == objAttr.objWithAttr.Item2);
-
-                                if (attribute != null)
+                                //добавление нового атрибута
+                                if (objAttr.sourseAttr != null)
                                 {
-                                    attribute.Values = objAttr.sourseAttr.Values;
-                                    _logger.AddToLog($"К [{objExp}] добавлено значение [{objAttr.sourseAttr}] [{objAttr.sourseAttr.Values.First()}].");
-                                }
-                                else
-                                {
-                                    //добавление нового атрибута
-                                    if (objAttr.sourseAttr != null)
-                                    {
-                                        ExportedAttribute newAttr = objAttr.sourseAttr.Clone() as ExportedAttribute;
-                                        objExp.exportedAttributes.Add(newAttr);
-                                        _logger.AddToLog($"К [{objExp}] добавлен [{newAttr}] со значением [{newAttr.Values.First()}].");
-                                    }
+                                    ExportedAttribute newAttr = objAttr.sourseAttr.Clone() as ExportedAttribute;
+                                    objExp.exportedAttributes.Add(newAttr);
+                                    _logger.AddToLog($"К [{objExp}] добавлен [{newAttr}] со значением [{newAttr.Values.First()}].");
                                 }
                             }
                         }
                     }
-                    // запись потомков
-                    _dataWriter.Write(data);
-                    // вызов для потомков
-                    foreach (ExportedObject item in data.ExportedObjectsList)
-                        Processing(item);
                 }
+                // запись потомков
+                _dataWriter.Write(data);
+                // вызов для потомков
+                foreach (ExportedObject item in data.ExportedObjectsList)
+                    Processing(item);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
         }
 
         #region Методы для добавления новых условий экспорта

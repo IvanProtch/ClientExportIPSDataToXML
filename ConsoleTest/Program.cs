@@ -52,7 +52,7 @@ namespace ConsoleTest
             {
                 if (_session == null)
                 {
-                    _session = Connect("protchenkoIV", "Byajhvfwbz28");
+                    _session = Connect("protchenkoIV", "Byajhvfwbz28", true);
                     return _session;
                 }
 
@@ -70,19 +70,19 @@ namespace ConsoleTest
             string path = @"D:\MyDoc\protchenkoiv\Рабочий стол\!XML\новая выгрузка\result.xml";
             XmlExchangeExportSettings exportSett = new XmlExchangeExportSettings();
 
-            XmlExchangeExportHelper.LoadSettings(79869831, session, out exportSett);// 78914316
+            XmlExchangeExportHelper.LoadSettings(1110767, session, out exportSett);// 78914316
             //   66824300  37688804 42292460(тепловоз)
             //ExportTask exportTask = new ExportTask(66824300, path);
 
-            ExportTask exportTask = new ExportTask(session, 66824300, path, exportSett);
+            ExportTask exportTask = new ExportTask(session, 42292460, path, exportSett);
 
-            ExportedAsm asm = new ExportedAsm(66824300, exportSett, session);
+            //ExportedAsm asm = new ExportedAsm(66824300, exportSett, session);
 
-            XMLDataWriter.DataWriter(path).Write(asm);
+            //XMLDataWriter.DataWriter(path).Write(asm);
 
             ;
             exportTask
-                .AddObject(ExportedObject.Create(1001, "test", 12345), 66824300)
+                .AddObject(ExportedObject.Create(1001, "test", 12345), 42292460)
                 .Exclude(el => el.ObjectType == 1317)
                 .Single(el => el.ObjectType == 1052)
                 .Single(el => el.ObjectType == 1176)

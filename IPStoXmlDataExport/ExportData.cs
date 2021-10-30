@@ -61,69 +61,54 @@ namespace IPStoXmlDataExport
         {
             Session = session;
             ObjectID = objectID;
-            try
+            if (settings != null)
             {
-                if (settings != null)
-                {
-                    _attributsFromSettings = settings
-                        .AttrSettings
-                        .Select(attrSet => Session.GetAttributeType((attrSet as XmlExchangeExportTypedBase).TypeGuid).AttributeID)
-                        .ToList();
-                }
-            }
-            catch (Exception exc)
-            {
-                throw;
-            }
-
-            // инициализация
-            try
-            {
-                IDBObject obj = Session.GetObject(ObjectID);
-
-                ObjectType = obj.ObjectType;
-                caprion = obj.NameInMessages;
-                Guid = obj.GUID.ToString();
-                typeName = Session.GetObjectType(ObjectType).ObjectTypeName;
-
-                AttributeValues[] attrs = obj.GetAttributesValues(GetAttributeValuesModes.IncludeGuid | GetAttributeValuesModes.IncludeObligatoryAttributes);
-
-                // добавляем дополнительные атрибуты в _attributsFromSettings
-                XmlExchangeExportObj attrsForType = settings.ObjSettings
-                    .Find(objSet => Session.GetObjectType((objSet as XmlExchangeExportObj).TypeGuid).ObjectType == ObjectType) as XmlExchangeExportObj;
-                //var attrsForType = settings.GetAdditionalObjTypeAttributs()
-                if (attrsForType != null && attrsForType.AttrList.Any())
-                {
-                    _attributsFromSettings
-                    .AddRange(attrsForType.AttrList
+                _attributsFromSettings = settings
+                    .AttrSettings
                     .Select(attrSet => Session.GetAttributeType((attrSet as XmlExchangeExportTypedBase).TypeGuid).AttributeID)
-                    .ToList());
-                }
-
-                //Добавляем атрибуты к объекту
-                exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.F_OBJECT_ID), obj));
-                exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.CAPTION), obj));
-                exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.F_OBJECT_TYPE), obj));
-                exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.F_GUID), obj));
-
-                if (_attributsFromSettings != null)
-                {
-                    foreach (int attribute in _attributsFromSettings)
-                    {
-                        AttributeValues objAttribute = attrs.FirstOrDefault(attr => attr.AttributeID == attribute);
-
-                        if (attribute == (int)ObligatoryObjectAttributes.CAPTION || attribute == (int)ObligatoryObjectAttributes.F_OBJECT_ID
-                        || attribute == (int)ObligatoryObjectAttributes.F_OBJECT_TYPE || attribute == (int)ObligatoryObjectAttributes.F_GUID)
-                            continue;
-
-                        if (objAttribute != null)
-                            exportedAttributes.Add(new ExportedAttribute(objAttribute, obj));
-                    }
-                }
+                    .ToList();
             }
-            catch (Exception)
+            // инициализация
+            IDBObject obj = Session.GetObject(ObjectID);
+
+            ObjectType = obj.ObjectType;
+            caprion = obj.NameInMessages;
+            Guid = obj.GUID.ToString();
+            typeName = Session.GetObjectType(ObjectType).ObjectTypeName;
+
+            AttributeValues[] attrs = obj.GetAttributesValues(GetAttributeValuesModes.IncludeGuid | GetAttributeValuesModes.IncludeObligatoryAttributes);
+
+            // добавляем дополнительные атрибуты в _attributsFromSettings
+            XmlExchangeExportObj attrsForType = settings.ObjSettings
+                .Find(objSet => Session.GetObjectType((objSet as XmlExchangeExportObj).TypeGuid).ObjectType == ObjectType) as XmlExchangeExportObj;
+            //var attrsForType = settings.GetAdditionalObjTypeAttributs()
+            if (attrsForType != null && attrsForType.AttrList.Any())
             {
-                throw;
+                _attributsFromSettings
+                .AddRange(attrsForType.AttrList
+                .Select(attrSet => Session.GetAttributeType((attrSet as XmlExchangeExportTypedBase).TypeGuid).AttributeID)
+                .ToList());
+            }
+
+            //Добавляем атрибуты к объекту
+            exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.F_OBJECT_ID), obj));
+            exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.CAPTION), obj));
+            exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.F_OBJECT_TYPE), obj));
+            exportedAttributes.Add(new ExportedAttribute(attrs.FirstOrDefault(attr => attr.AttributeID == (int)ObligatoryObjectAttributes.F_GUID), obj));
+
+            if (_attributsFromSettings != null)
+            {
+                foreach (int attribute in _attributsFromSettings)
+                {
+                    AttributeValues objAttribute = attrs.FirstOrDefault(attr => attr.AttributeID == attribute);
+
+                    if (attribute == (int)ObligatoryObjectAttributes.CAPTION || attribute == (int)ObligatoryObjectAttributes.F_OBJECT_ID
+                    || attribute == (int)ObligatoryObjectAttributes.F_OBJECT_TYPE || attribute == (int)ObligatoryObjectAttributes.F_GUID)
+                        continue;
+
+                    if (objAttribute != null)
+                        exportedAttributes.Add(new ExportedAttribute(objAttribute, obj));
+                }
             }
         }
 

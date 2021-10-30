@@ -12,21 +12,19 @@
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
-    <AssociationLine Name="_settings" Type="Intermech.Interfaces.XmlExchange.XmlExchangeExportSettings">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="2.225" Y="0.05" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAQAAAhwIIAAAgAACAACAgAAAAAAAAAAA=</HashCode>
       <FileName>DataExchange.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_settings" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="IPStoXmlDataExport.XMLDataWriter">
     <Position X="10.5" Y="2.25" Width="2.75" />
+    <AssociationLine Name="Document" Type="System.Xml.Linq.XDocument" FixedToPoint="true">
+      <Path>
+        <Point X="12.875" Y="5.55" />
+        <Point X="12.875" Y="8.25" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAQAAAAgAAAAAAAAACIAAAAAAAAAACCAAAAAEAgAA=</HashCode>
       <FileName>DataExchange.cs</FileName>
@@ -35,35 +33,11 @@
       <Property Name="Document" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportSettings">
-    <Position X="7" Y="8.25" Width="3.5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
-    <AssociationLine Name="ObjSettings" Type="Intermech.Interfaces.XmlExchange.XmlExchangeExportObjList">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.173" Y="0.07" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier />
-    <ShowAsAssociation>
-      <Property Name="ObjSettings" />
-    </ShowAsAssociation>
-  </Class>
   <Class Name="System.Xml.Linq.XDocument">
     <Position X="11.75" Y="8.25" Width="2.25" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportObjList">
-    <Position X="2.5" Y="13.5" Width="3.25" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportTypedBaseList">
-    <Position X="2.5" Y="17" Width="3.25" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="Intermech.Interfaces.XmlExchange.XmlExchangeExportBaseList">
-    <Position X="2.5" Y="20.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier />
   </Class>
   <Class Name="IPStoXmlDataExport.Logger">
@@ -105,12 +79,6 @@
         <Position X="1.943" Y="0.05" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="Settings" Type="Intermech.Interfaces.XmlExchange.XmlExchangeExportSettings" FixedFromPoint="true">
-      <Path>
-        <Point X="8.98" Y="6.936" />
-        <Point X="8.98" Y="8.25" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>ACCAAAEAgAAAAAAIAIAAAACDJAAKhIAggBAAAQGAAAA=</HashCode>
       <FileName>ExportTask.cs</FileName>
@@ -119,21 +87,40 @@
       <Field Name="_logger" />
       <Field Name="_dataWriter" />
       <Field Name="_dataReader" />
-      <Property Name="Settings" />
     </ShowAsAssociation>
   </Class>
   <Class Name="IPStoXmlDataExport.ExportData">
-    <Position X="3.5" Y="0.5" Width="2.5" />
+    <Position X="2.25" Y="0.5" Width="2.5" />
+    <AssociationLine Name="HeaderObject" Type="IPStoXmlDataExport.ExportedObject" FixedToPoint="true">
+      <Path>
+        <Point X="3.938" Y="2.076" />
+        <Point X="3.938" Y="3.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.139" Y="1.129" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ExportedObjectsList" Type="IPStoXmlDataExport.ExportedObject">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-3.012" Y="0.785" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAEgAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>ExportData.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="HeaderObject" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="ExportedObjectsList" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="IPStoXmlDataExport.ExportedObject">
-    <Position X="3.5" Y="3.5" Width="3" />
+    <Position X="2.25" Y="3.5" Width="3" />
     <AssociationLine Name="exportedAttributes" Type="IPStoXmlDataExport.ExportedAttribute">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.547" Y="0.278" />
+        <Position X="-1.547" Y="1.242" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -157,9 +144,9 @@
     <Position X="0.5" Y="9.25" Width="2.75" />
     <InheritanceLine Type="IPStoXmlDataExport.ExportedObject" FixedFromPoint="true">
       <Path>
-        <Point X="3.5" Y="5.688" />
-        <Point X="1.875" Y="5.688" />
-        <Point X="1.875" Y="9.25" />
+        <Point X="2.25" Y="5.688" />
+        <Point X="1.375" Y="5.688" />
+        <Point X="1.375" Y="9.25" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
