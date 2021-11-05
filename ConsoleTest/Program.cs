@@ -52,7 +52,7 @@ namespace ConsoleTest
             {
                 if (_session == null)
                 {
-                    _session = Connect("protchenkoIV", "Byajhvfwbz28", true);
+                    _session = Connect("", "", true);
                     return _session;
                 }
 
