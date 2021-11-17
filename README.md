@@ -2,10 +2,10 @@
 Модуль расширения PDM-PLM системы IPS, осуществляющий экспорт состава выбранного объекта в документ xml.
 Модуль работает в скрипте, который выполняется в определенное время автоматически.
     Пример:
+    
             // Получение конфигурации экспорта
             XmlExchangeExportSettings exportSett = new XmlExchangeExportSettings();
             XmlExchangeExportHelper.LoadSettings(1110767, session, out exportSett);
-            
             ExportTask exportTask = new ExportTask(session, 42292460, path, exportSett);
             
             // Перед запуском задачи экспорта можно задать ряд методов, которые выполнятся в процессе экспорта
@@ -18,8 +18,10 @@
                 .CreateOrChangeAttribute(new Tuple<int, int>(1075, 0), new Tuple<int, int>(1110, 1125))
                 
                 .StartExportTask(writeExceptionToLog: false);
+             
+             
+Результат записывается с учетом иерархии:
 
-    Результат записывается с учетом иерархии:
 <?xml version="1.0" encoding="utf-8"?>
 <main_item name="Сборочная единица '3ТЭ25К2М.000.00.000 (Тепловоз магистральный грузовой 3ТЭ25К2М)'" type="1074" id="42292460" guid="a1049b99-29c8-47d9-8f3b-472b09c3b4b4">
   <attributs>
